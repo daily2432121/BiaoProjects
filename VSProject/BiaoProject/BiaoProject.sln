@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiaoProject", "BiaoProject\BiaoProject.csproj", "{849925D7-1926-4C04-A6E4-2AA34850E9C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiaoProject.Service", "BiaoProject.Service\BiaoProject.Service.csproj", "{909F27CA-9DAE-40B8-8AC0-0037993F7600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiaoProject.Service.UnitTest", "BiaoProject.Service.UnitTest\BiaoProject.Service.UnitTest.csproj", "{11CA80C4-0B53-421B-809E-045629350E06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{849925D7-1926-4C04-A6E4-2AA34850E9C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{849925D7-1926-4C04-A6E4-2AA34850E9C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{849925D7-1926-4C04-A6E4-2AA34850E9C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{909F27CA-9DAE-40B8-8AC0-0037993F7600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{909F27CA-9DAE-40B8-8AC0-0037993F7600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{909F27CA-9DAE-40B8-8AC0-0037993F7600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{909F27CA-9DAE-40B8-8AC0-0037993F7600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11CA80C4-0B53-421B-809E-045629350E06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11CA80C4-0B53-421B-809E-045629350E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11CA80C4-0B53-421B-809E-045629350E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11CA80C4-0B53-421B-809E-045629350E06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
