@@ -29,13 +29,14 @@ namespace BiaoProject.Service.Helper
             using (StreamReader readFile = new StreamReader(fileName))
             {
                 string line;
-                T newItem =new T();
+                
 
                 string rawHeader = readFile.ReadLine();
 
                 var headers = rawHeader.ToLower().Split(',').Select(e=>e.Trim().ToLower()).ToList();
                 while ((line = readFile.ReadLine()) != null)
                 {
+                    T newItem = new T();
                     var row = line.Split(',');
                     for (int i = 0; i < row.Count(); i++)
                     {

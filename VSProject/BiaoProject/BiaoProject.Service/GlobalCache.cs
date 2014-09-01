@@ -21,12 +21,16 @@ namespace BiaoProject.Service
         private static GlobalCache _instance = null;
         private static ManualResetEvent _initEvent = new ManualResetEvent(false);
         private static Object _lock = new object();
-
+        private static string _dataPath;
         public List<Voucher.Models.Voucher> Vouchers = new List<Voucher.Models.Voucher>(); 
 
 
         public Dictionary<Tuple<long,DateTime>, Voucher.Models.Voucher> VoucherDict = new Dictionary<Tuple<long,DateTime>, Voucher.Models.Voucher>();
 
+        public static void SetDataPath(string path)
+        {
+            _dataPath = path;
+        }
         public static GlobalCache Instance
         {
             get
@@ -90,7 +94,7 @@ namespace BiaoProject.Service
                 Thread.Sleep(updateInterval * 1000);
             }
         }
-
+        private GlobalCache() { }
         private static GlobalCache Create()
         {
             try
@@ -119,7 +123,7 @@ namespace BiaoProject.Service
         private void Load()
         {
             ExcelHelper helper =new ExcelHelper();
-            Vouchers = helper.GetAllFromCsv<Voucher.Models.Voucher>("TestCsv.csv", VoucherColumnMapping.GetColumnMappings());
+            Vouchers = helper.GetAllFromCsv<Voucher.Models.Voucher>(_dataPath +@"\TestCsv.csv", VoucherColumnMapping.GetColumnMappings());
 
         }
 
