@@ -19,31 +19,22 @@ namespace BiaoProject.Mobile
     {
 
 
-        public string GetData(int value)
+
+
+        public VoucherMobileService()
         {
-            return string.Format("You entered: {0}", value);
+            string str = System.Web.Hosting.HostingEnvironment.MapPath("~/Data");
+            GlobalCache.SetDataPath(str);
         }
 
         public List<DailyVisitByRegion> GetDailyVisitByRegions()
         {
             HttpContext context = HttpContext.Current;
-            string str =System.Web.Hosting.HostingEnvironment.MapPath("~/Data");
-            GlobalCache.SetDataPath(str);
+            
             VoucherAnalytics an =new VoucherAnalytics(new VoucherService(GlobalCache.Instance));
             return DailyVisitByRegion.FromVoucher(an.GroupAllValidVisitsByRegion());
         }
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
-        {
-            if (composite == null)
-            {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
-        }
+
     }
 }

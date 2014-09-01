@@ -17,8 +17,6 @@ namespace BiaoProject.Mobile
         [OperationContract]
         [WebGet(UriTemplate = "Analytics/Daily/ByRegions",RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         List<DailyVisitByRegion> GetDailyVisitByRegions();
-        [OperationContract]
-        CompositeType GetDataUsingDataContract(CompositeType composite);
 
         // TODO: Add your service operations here
     }
