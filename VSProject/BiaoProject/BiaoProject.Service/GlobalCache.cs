@@ -169,5 +169,26 @@ namespace BiaoProject.Service
             }
             return result;
         }
+
+        public RepositoryResult<string, List<string>> GetAllRegions()
+        {
+            RepositoryResult<string, List<string>> result = new RepositoryResult<string, List<string>>();
+            
+            if (!Vouchers.Any())
+            {
+                result.Item = null;
+                result.ErrorMessage = string.Format("Failed To Get Regions");
+                result.Success = false;
+                result.Key = null;
+            }
+            else
+            {
+                result.Item = Vouchers.Select(e => e.Location).Distinct().ToList(); 
+                result.ErrorMessage = null;
+                result.Success = true;
+                result.Key = key;
+            }
+            return result;
+        }
     }
 }

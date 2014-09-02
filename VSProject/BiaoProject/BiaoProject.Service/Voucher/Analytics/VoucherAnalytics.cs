@@ -35,6 +35,13 @@ namespace BiaoProject.Service.Voucher.Analytics
             return result;
         }
 
+        public Dictionary<DateTime, Dictionary<string, int>> GroupAllByDateThenByRegion()
+        {
+            var vouchers = _service.GetAllVouchers().Where(e => e.Fee != 0 && e.UpdateStatus == 1).GroupBy(a => a.VoucherServiceDate).ToDictionary(b => b.Key, b => b.GroupBy(c => c.Location).ToDictionary(d=>d.Key,d=>d.Count()));
+            return vouchers;
+        }
+            
+
 
     }
 

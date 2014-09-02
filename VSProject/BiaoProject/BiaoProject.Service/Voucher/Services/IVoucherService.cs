@@ -11,6 +11,7 @@ namespace BiaoProject.Service.Voucher.Services
     public interface IVoucherService
     {
         List<Models.Voucher> GetAllVouchers();
+        List<string> GetAllRegions();
     }
 
     public class VoucherService : IVoucherService
@@ -30,5 +31,17 @@ namespace BiaoProject.Service.Voucher.Services
             }
             return result.Item;
         }
+
+        public List<string> GetAllRegions()
+        {
+            var result = _repository.GetAllRegions();
+            if (!result.Success)
+            {
+                throw new DataException(result.ErrorMessage);
+            }
+            return result.Item;
+        }
+
+        
     }
 }

@@ -10,6 +10,7 @@ namespace BiaoProject.Service.Voucher.DataAccess
     {
         RepositoryResult<string, List<Models.Voucher>> GetAllVouchers();
         RepositoryResult<Tuple<long, DateTime>, Models.Voucher> GetAllVoucherByPatNumberAndVoucherServiceDate(long patNumber, DateTime serviceDate);
+        RepositoryResult<string, List<string>> GetAllRegions();
 
 
 
