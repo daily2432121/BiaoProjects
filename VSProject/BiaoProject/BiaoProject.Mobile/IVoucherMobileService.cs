@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -18,6 +20,14 @@ namespace BiaoProject.Mobile
         [WebGet(UriTemplate = "Analytics/Daily/ByRegions",RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         List<DailyVisitByRegion> GetDailyVisitByRegions();
 
+        [OperationContract]
+        [WebGet(UriTemplate = "Analytics/Daily/ByRegions/Chart", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        DailyVisitByDateStackAtRegionChart GetDailyVisitByRegionsChart();
+
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Analytics/Daily/ByRegions/Chart/Google")]
+        Stream GetDailyVisitByRegionsChartForGoogle();
         // TODO: Add your service operations here
     }
 

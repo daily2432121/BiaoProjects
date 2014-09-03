@@ -25,6 +25,13 @@ namespace BiaoProject.Service.Voucher.Analytics
             return result;
         }
 
+        public List<Models.Voucher> GetAllValidVisitsRaw()
+        {
+            var vouchers = _service.GetAllVouchers();
+            var result = vouchers.Where(e => e.Fee != 0 && e.UpdateStatus == 1).ToList();
+            return result;
+        }
+
         public Dictionary<Tuple<DateTime, string>, int> GroupAllValidVisitsByRegion()
         {
             var vouchers = _service.GetAllVouchers();
@@ -40,8 +47,11 @@ namespace BiaoProject.Service.Voucher.Analytics
             var vouchers = _service.GetAllVouchers().Where(e => e.Fee != 0 && e.UpdateStatus == 1).GroupBy(a => a.VoucherServiceDate).ToDictionary(b => b.Key, b => b.GroupBy(c => c.Location).ToDictionary(d=>d.Key,d=>d.Count()));
             return vouchers;
         }
-            
 
+
+        
+        
+            
 
     }
 

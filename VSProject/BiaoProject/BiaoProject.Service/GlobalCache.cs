@@ -186,7 +186,7 @@ namespace BiaoProject.Service
                 result.Item = Vouchers.Select(e => e.Location).Distinct().ToList(); 
                 result.ErrorMessage = null;
                 result.Success = true;
-                result.Key = key;
+                result.Key = null;
             }
             return result;
         }

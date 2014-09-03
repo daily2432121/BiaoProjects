@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using System.Web;
+using BiaoProject.Mobile.Chart;
 using BiaoProject.Mobile.ViewModels.Daily;
 using BiaoProject.Service;
 using BiaoProject.Service.Voucher.Analytics;
@@ -29,12 +32,25 @@ namespace BiaoProject.Mobile
 
         public List<DailyVisitByRegion> GetDailyVisitByRegions()
         {
-            HttpContext context = HttpContext.Current;
+         
             
             VoucherAnalytics an =new VoucherAnalytics(new VoucherService(GlobalCache.Instance));
             return DailyVisitByRegion.FromVoucher(an.GroupAllValidVisitsByRegion());
         }
 
+        public DailyVisitByDateStackAtRegionChart GetDailyVisitByRegionsChart()
+        {
+            VoucherAnalytics an = new VoucherAnalytics(new VoucherService(GlobalCache.Instance));
+            var result = an.GetAllValidVisitsRaw();
+            var days = an.GroupAllByDateThenByRegion();
+            List<string> regions = result.OrderBy(r => r.Location).Select(r => r.Location).Distinct().ToList();
+            return new DailyVisitByDateStackAtRegionChart() {Count = days, Region = regions};
+        }
 
+        public Stream GetDailyVisitByRegionsChartForGoogle()
+        {
+            WebOperationContext.Current.OutgoingResponse.ContentType ="application/json; charset=utf-8";
+            return new MemoryStream(Encoding.UTF8.GetBytes(GetDailyVisitByRegionsChart().BuildArray()));
+        }
     }
 }

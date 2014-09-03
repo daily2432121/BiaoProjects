@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
+using BiaoProject.Mobile.Chart;
+using Google.DataTable.Net.Wrapper;
 
 namespace BiaoProject.Mobile.ViewModels.Daily
 {
@@ -25,5 +29,52 @@ namespace BiaoProject.Mobile.ViewModels.Daily
 
             return result;
         }
+
+
     }
+
+    public class DailyVisitByDateStackAtRegionChart
+    {
+        public List<string> Region{ get; set; }
+        public Dictionary<DateTime, Dictionary<string,int>> Count { get; set; }
+
+        public string BuildArray()
+        {
+
+            var annotation = Region.OrderBy(r => r).ToList();
+            var regions = Region.OrderBy(r => r).ToList();
+            var dt = new Google.DataTable.Net.Wrapper.DataTable();
+            dt.AddColumn(new Column(ColumnType.String, "Region"));
+            var cols = annotation.Select(o=>new Column(ColumnType.Number,o.ToString(),o.ToString())).ToList();
+            cols.ForEach(e=>dt.AddColumn(e));
+            
+            foreach (var k in Count)
+            {
+                
+                
+                Row r = dt.NewRow();
+                r.AddCell(new Cell(k.Key.ToString()));
+                for (int i = 0; i < regions.Count; i++)
+                {
+                    int c = 0;
+                    if (k.Value.TryGetValue(regions[i], out c))
+                    {
+                        r.AddCell(new Cell(c));
+                    }
+                    else
+                    {
+                        r.AddCell(new Cell(0));
+                    }
+                }
+                
+                dt.AddRow(r);
+
+            }
+            return dt.GetJson();
+
+
+        }
+    }
+
+    
 }
