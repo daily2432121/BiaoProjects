@@ -43,15 +43,19 @@ namespace BiaoProject.Mobile.ViewModels.Daily
 
             var annotation = Region.OrderBy(r => r).ToList();
             var regions = Region.OrderBy(r => r).ToList();
-            var dt = new Google.DataTable.Net.Wrapper.DataTable();
-            dt.AddColumn(new Column(ColumnType.String, "Region"));
+            var dt = new DataTable();
+            dt.AddColumn(new Column(ColumnType.Number, "DayNumber")).ToString();
             var cols = annotation.Select(o=>new Column(ColumnType.Number,o.ToString(),o.ToString())).ToList();
             cols.ForEach(e=>dt.AddColumn(e));
+            
+            DateTime minDateTime = Count.Keys.Min();
             
             foreach (var k in Count.Sort())
             {
                 Row r = dt.NewRow();
-                r.AddCell(new Cell(k.Key.ToShortDateString()));
+                int days = (int)((k.Key - minDateTime).TotalDays + 1);
+                
+                r.AddCell(new Cell(days));
                 for (int i = 0; i < regions.Count; i++)
                 {
                     int c = 0;
