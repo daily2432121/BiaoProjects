@@ -48,12 +48,10 @@ namespace BiaoProject.Mobile.ViewModels.Daily
             var cols = annotation.Select(o=>new Column(ColumnType.Number,o.ToString(),o.ToString())).ToList();
             cols.ForEach(e=>dt.AddColumn(e));
             
-            foreach (var k in Count)
+            foreach (var k in Count.Sort())
             {
-                
-                
                 Row r = dt.NewRow();
-                r.AddCell(new Cell(k.Key.ToString()));
+                r.AddCell(new Cell(k.Key.ToShortDateString()));
                 for (int i = 0; i < regions.Count; i++)
                 {
                     int c = 0;
@@ -70,8 +68,16 @@ namespace BiaoProject.Mobile.ViewModels.Daily
                 dt.AddRow(r);
 
             }
-            return dt.GetJson();
+            string str = dt.GetJson();
 
+            string pass = System.Web.HttpContext.Current.Request.QueryString["callback"];
+            if (string.IsNullOrEmpty(pass) == false)
+            {
+
+                str = string.Format("{0}({1})", pass, str);
+            }
+
+            return str;
 
         }
     }

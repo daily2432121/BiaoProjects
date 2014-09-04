@@ -66,6 +66,7 @@
     <Content Include="DailyChart.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Google.DataTable.Net.Wrapper.XML" />
+    <Content Include="Script\mootools-more-1.5.1.js" />
     <Content Include="VoucherMobileService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -97,6 +98,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\VoucherChart %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\VoucherChart %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\VoucherChart.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

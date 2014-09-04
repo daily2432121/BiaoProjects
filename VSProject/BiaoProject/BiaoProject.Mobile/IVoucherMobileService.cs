@@ -27,7 +27,11 @@ namespace BiaoProject.Mobile
 
         [OperationContract]
         [WebGet(UriTemplate = "Analytics/Daily/ByRegions/Chart/Google")]
-        Stream GetDailyVisitByRegionsChartForGoogle();
+        Stream GetDailyVisitByRegionsChartForGoogle_All();
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Analytics/Daily/ByRegions/Chart/Google?startTime={startTime}&endTime={endTime}",ResponseFormat = WebMessageFormat.Json)]
+        Stream GetDailyVisitByRegionsChartForGoogle(DateTime startTime, DateTime endTime);
         // TODO: Add your service operations here
     }
 

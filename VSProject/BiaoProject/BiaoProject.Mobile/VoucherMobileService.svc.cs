@@ -40,17 +40,31 @@ namespace BiaoProject.Mobile
 
         public DailyVisitByDateStackAtRegionChart GetDailyVisitByRegionsChart()
         {
+            throw new NotImplementedException();
+        }
+
+        public DailyVisitByDateStackAtRegionChart GetDailyVisitByRegionsChart(DateTime startDate, DateTime endDate)
+        {
             VoucherAnalytics an = new VoucherAnalytics(new VoucherService(GlobalCache.Instance));
-            var result = an.GetAllValidVisitsRaw();
-            var days = an.GroupAllByDateThenByRegion();
+            var result = an.GetAllValidVisitsRaw().Where(e=>e.VoucherServiceDate>=startDate && e.VoucherServiceDate<=endDate).ToList();
+            var days = an.GroupAllByDateThenByRegion(startDate, endDate);
             List<string> regions = result.OrderBy(r => r.Location).Select(r => r.Location).Distinct().ToList();
             return new DailyVisitByDateStackAtRegionChart() {Count = days, Region = regions};
         }
 
-        public Stream GetDailyVisitByRegionsChartForGoogle()
+
+        
+
+        public Stream GetDailyVisitByRegionsChartForGoogle_All()
         {
             WebOperationContext.Current.OutgoingResponse.ContentType ="application/json; charset=utf-8";
-            return new MemoryStream(Encoding.UTF8.GetBytes(GetDailyVisitByRegionsChart().BuildArray()));
+            return new MemoryStream(Encoding.UTF8.GetBytes(GetDailyVisitByRegionsChart(DateTime.MinValue,DateTime.MaxValue).BuildArray()));
+        }
+
+        public Stream GetDailyVisitByRegionsChartForGoogle(DateTime startTime, DateTime endTime)
+        {
+            WebOperationContext.Current.OutgoingResponse.ContentType = "application/json; charset=utf-8";
+            return new MemoryStream(Encoding.UTF8.GetBytes(GetDailyVisitByRegionsChart(startTime,endTime).BuildArray()));
         }
     }
 }
