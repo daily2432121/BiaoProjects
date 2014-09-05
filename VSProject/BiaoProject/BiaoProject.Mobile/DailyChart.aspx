@@ -147,6 +147,12 @@
 <body>
     <form id="form1" runat="server">
         <p>
+            <asp:FileUpload ID="fileUpload"  runat="server"/>
+            <asp:Button id="uploadButton" Text="Upload CSV file" OnClick="UploadBtn_Click" runat="server">
+        </asp:Button>    
+        </p>
+        <p>
+            
             <div>
                 <div id="chart_div">Waiting for data...</div>
             </div>        
@@ -156,7 +162,7 @@
             <div>
                 <div id="table_div">Waiting for data...</div>
             </div>    
-        </p>
+        &nbsp;</p>
     </form>
 </body>
 </html>

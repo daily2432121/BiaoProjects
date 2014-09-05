@@ -8,6 +8,8 @@ using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BiaoProject.Service.CheckUploads.Models;
+using BiaoProject.Service.CheckUploads.Services;
 using BiaoProject.Service.Helper;
 using BiaoProject.Service.Voucher.DataAccess;
 
@@ -16,12 +18,13 @@ namespace BiaoProject.Service
 
     public class GlobalCache:IVoucherRepository
     {
-        private const int DEFAULTREFRESHINTERVAL = 20;
+        private const int DEFAULTREFRESHINTERVAL = 10;
         // Singleton variables
         private static GlobalCache _instance = null;
         private static ManualResetEvent _initEvent = new ManualResetEvent(false);
         private static Object _lock = new object();
         private static string _dataPath;
+        private static FileStatus _lastCsv;
         public List<Voucher.Models.Voucher> Vouchers = new List<Voucher.Models.Voucher>(); 
 
 
@@ -123,8 +126,32 @@ namespace BiaoProject.Service
         private void Load()
         {
             ExcelHelper helper =new ExcelHelper();
-            Vouchers = helper.GetAllFromCsv<Voucher.Models.Voucher>(_dataPath +@"\TestCsv.csv", VoucherColumnMapping.GetColumnMappings());
+            CheckUploads.Services.CheckUploadService cus = new CheckUploadService();
+            var lastFile = cus.GetLastedUploadedFile(_dataPath + @"\Uploads");
+            if (_lastCsv != null && lastFile !=null && lastFile.MD5 != _lastCsv.MD5)
+            {
 
+
+                try
+                {
+                    Vouchers = helper.GetAllFromCsv<Voucher.Models.Voucher>(lastFile.Path + "\\" + lastFile.FileName,
+                        VoucherColumnMapping.GetColumnMappings());
+
+                }
+                catch
+                {
+                    Vouchers = helper.GetAllFromCsv<Voucher.Models.Voucher>(_lastCsv.Path + "\\" + _lastCsv.FileName,
+                        VoucherColumnMapping.GetColumnMappings());
+                    return;
+                }
+                _lastCsv = lastFile;
+
+            }
+            else
+            {
+                Vouchers = helper.GetAllFromCsv<Voucher.Models.Voucher>(lastFile.Path + "\\" + lastFile.FileName,VoucherColumnMapping.GetColumnMappings());
+                _lastCsv = lastFile;
+            }
         }
 
         public RepositoryResult<string, List<Voucher.Models.Voucher>> GetAllVouchers()

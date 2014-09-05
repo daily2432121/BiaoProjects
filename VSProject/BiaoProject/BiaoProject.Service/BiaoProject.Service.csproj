@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckUploads\Models\FileStatus.cs" />
+    <Compile Include="CheckUploads\Services\ICheckUploadService.cs" />
     <Compile Include="GlobalCache.cs" />
     <Compile Include="Helper\ExcelHelper.cs" />
     <Compile Include="Helper\LogWriter.cs" />
