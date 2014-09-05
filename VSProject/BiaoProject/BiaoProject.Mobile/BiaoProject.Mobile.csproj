@@ -94,12 +94,13 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\TestCsv.csv">
+    <Content Include="Data\Uploads\TestCsv.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\VoucherChart %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\VoucherChart %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\VoucherChart %284%29.pubxml" />
     <None Include="Properties\PublishProfiles\VoucherChart.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
