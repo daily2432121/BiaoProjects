@@ -97,6 +97,29 @@ namespace BiaoProject.Service
                 Thread.Sleep(updateInterval * 1000);
             }
         }
+
+        public static void ForceRefresh()
+        {
+            GlobalCache g = Create();
+
+            // first instance init
+            if (_instance == null)
+            {
+                lock (_lock)
+                {
+                    _instance = g;
+                }
+                _initEvent.Set();
+            }
+            else
+            {
+                lock (_lock)
+                {
+                    _instance = g;
+                }
+            }
+        }
+
         private GlobalCache() { }
         private static GlobalCache Create()
         {

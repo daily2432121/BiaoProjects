@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using BiaoProject.Service;
 
 namespace BiaoProject.Mobile
 {
@@ -20,6 +21,9 @@ namespace BiaoProject.Mobile
             if (fileUpload.HasFile && fileUpload.FileName.EndsWith(".csv"))
             {
                 fileUpload.SaveAs(Server.MapPath("~/Data/Uploads/"+ DateTime.UtcNow.ToLocalTime().ToString("yy-MM-dd_hh_mm_ss")+"_Uploaded_"+new Random().Next(1000)+".csv"));
+                GlobalCache.ForceRefresh();
+                Response.Redirect(Request.RawUrl);
+
             }
         }
     }
