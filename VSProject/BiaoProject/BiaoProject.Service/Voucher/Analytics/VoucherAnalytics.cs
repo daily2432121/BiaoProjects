@@ -52,9 +52,10 @@ namespace BiaoProject.Service.Voucher.Analytics
         {
             var minDate =
                 _service.GetAllVouchers().Where(e => e.Fee != 0 && e.UpdateStatus == 1).Min(a => a.VoucherServiceDate);
+            minDate = DateTime.SpecifyKind(minDate, DateTimeKind.Utc);
             var maxDate =
                 _service.GetAllVouchers().Where(e => e.Fee != 0 && e.UpdateStatus == 1).Max(a => a.VoucherServiceDate);
-
+            maxDate = DateTime.SpecifyKind(maxDate, DateTimeKind.Utc);
             return new Tuple<DateTime, DateTime>(minDate,maxDate);
         }
         

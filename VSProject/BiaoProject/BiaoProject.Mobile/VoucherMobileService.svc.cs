@@ -45,8 +45,11 @@ namespace BiaoProject.Mobile
 
         public DailyVisitByDateStackAtRegionChart GetDailyVisitByRegionsChart(DateTime startDate, DateTime endDate)
         {
-            startDate = startDate.ToLocalTime();
-            endDate = endDate.ToLocalTime();
+            //TimeZoneInfo info=TimeZoneInfo.FindSystemTimeZoneById()
+            //startDate = TimeZoneInfo.ConvertTimeFromUtc(startDate,TimeZoneInfo.Local);
+            //endDate = TimeZoneInfo.ConvertTimeToUtc(endDate, TimeZoneInfo.Local);
+            //startDate = startDate.ToLocalTime();
+            //endDate = endDate.ToLocalTime();
             VoucherAnalytics an = new VoucherAnalytics(new VoucherService(GlobalCache.Instance));
             var result = an.GetAllValidVisitsRaw().Where(e=>e.VoucherServiceDate>=startDate && e.VoucherServiceDate<=endDate).ToList();
             var days = an.GroupAllByDateThenByRegion(startDate, endDate);

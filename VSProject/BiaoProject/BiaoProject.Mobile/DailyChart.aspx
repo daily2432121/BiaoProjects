@@ -141,12 +141,12 @@
                 jsonp: "callback",
                 jsonpCallback: "handler2",
                 success: function(p) {
-                    minDate = moment(p.m_Item1);
-                    maxDate = moment(p.m_Item2);
+                    minDate = moment.utc(p.m_Item1);
+                    maxDate = moment.utc(p.m_Item2);
+                    console.log("first:minDate:" + minDate);
+                    console.log("first:maxDate:" + maxDate);
                     var diff = new moment(maxDate).diff(minDate, 'days');
-                    var showDaysMin = 1;
-                    var showDaysMax = diff+1;
-                    $('#range').val('Day ' + showDaysMin + " - " + showDaysMax);
+                    $('#range').val(minDate.format("MM-DD-YYYY") + " to " + maxDate.format("MM-DD-YYYY"));
                     $('#start_date').val(minDate.format("MM-DD-YYYY"));
                     $('#slider').slider({
                         range: true,
@@ -157,12 +157,11 @@
                             if (ui.values[0] == ui.values[1]) {
                                 return false;
                             }
-                            var showDaysMin = parseInt(ui.values[0]) + 1;
-                            var showDaysMax = parseInt(ui.values[1]) + 1;
-                            $('#range').val('Day ' + showDaysMin + " - " + showDaysMax);
+                            
                             $('#start_date').val(minDate.format("MM-DD-YYYY"));
                             var newMinDate = new moment(minDate).add(parseInt(ui.values[0]), 'days');
-                            var newMaxDate = new moment(minDate).add(parseInt(ui.values[1]), 'days') ;
+                            var newMaxDate = new moment(minDate).add(parseInt(ui.values[1]), 'days');
+                            //$('#range').val(newMinDate.format("MM-DD-YYYY") + " to " + newMaxDate.format("MM-DD-YYYY"));
                             console.log("minDate:" + minDate.toString());
                             console.log("newMinDate:" + newMinDate.toString());
                             console.log("maxDate:" + maxDate.toString());
@@ -179,9 +178,10 @@
                             if (ui.values[0] == ui.values[1]) {
                                 return false;
                             }
-                            var showDaysMin = parseInt(ui.values[0]) + 1;
-                            var showDaysMax = parseInt(ui.values[1]) + 1;
-                            $('#range').val('Day ' + showDaysMin + " - " + showDaysMax);
+                            var newMinDate = new moment(minDate).add(parseInt(ui.values[0]), 'days');
+                            var newMaxDate = new moment(minDate).add(parseInt(ui.values[1]), 'days');
+                            console.log(newMaxDate);
+                            $('#range').val(newMinDate.format("MM-DD-YYYY") + " to " + newMaxDate.format("MM-DD-YYYY"));
                         }
                         
                     });
@@ -215,8 +215,8 @@
         </p>
         
         <p></p>
-        <p><label for ="start_date">Start Date: </label><input type="text" id="start_date" readonly="readonly" style="border-style: none; border-color: inherit; border-width: 0; font-weight:bold; width: 400px;"/>   </p>
-        <p><label for ="range" >Pick a Date Range: &nbsp;</label><input type="text" id="range" readonly="readonly" style="border:0;  font-weight:bold;" /></p>
+        <p><label for ="start_date">Minimum Start Date: </label><input type="text" id="start_date" readonly="readonly" style="border-style: none; border-color: inherit; border-width: 0; font-weight:bold; width: 400px;"/>   </p>
+        <p><label for ="range" >Pick a Date Range: &nbsp;</label><input type="text" id="range" readonly="readonly" style="border:0;  font-weight:bold;width: 400px;" /></p>
             <div id="slider" style="width:1200px"></div>
         
         
