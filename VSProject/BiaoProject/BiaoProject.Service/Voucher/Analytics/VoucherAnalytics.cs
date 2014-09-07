@@ -48,6 +48,17 @@ namespace BiaoProject.Service.Voucher.Analytics
             return vouchers;
         }
 
+        public Tuple<DateTime, DateTime> GetVoucherMinAndMaxServiceDate()
+        {
+            var minDate =
+                _service.GetAllVouchers().Where(e => e.Fee != 0 && e.UpdateStatus == 1).Min(a => a.VoucherServiceDate);
+            var maxDate =
+                _service.GetAllVouchers().Where(e => e.Fee != 0 && e.UpdateStatus == 1).Max(a => a.VoucherServiceDate);
+
+            return new Tuple<DateTime, DateTime>(minDate,maxDate);
+        }
+        
+
         public Dictionary<DateTime, Dictionary<string, int>> GroupAllByDateThenByRegion(DateTime startDate, DateTime endDateTime)
         {
             var vouchers = _service.GetAllVouchers().Where(e => e.Fee != 0 && e.UpdateStatus == 1 && e.VoucherServiceDate >=startDate && e.VoucherServiceDate<=endDateTime).GroupBy(a => a.VoucherServiceDate).ToDictionary(b => b.Key, b => b.GroupBy(c => c.Location).ToDictionary(d => d.Key, d => d.Count()));

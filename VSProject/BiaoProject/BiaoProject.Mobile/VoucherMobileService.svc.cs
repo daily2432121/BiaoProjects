@@ -45,6 +45,8 @@ namespace BiaoProject.Mobile
 
         public DailyVisitByDateStackAtRegionChart GetDailyVisitByRegionsChart(DateTime startDate, DateTime endDate)
         {
+            startDate = startDate.ToLocalTime();
+            endDate = endDate.ToLocalTime();
             VoucherAnalytics an = new VoucherAnalytics(new VoucherService(GlobalCache.Instance));
             var result = an.GetAllValidVisitsRaw().Where(e=>e.VoucherServiceDate>=startDate && e.VoucherServiceDate<=endDate).ToList();
             var days = an.GroupAllByDateThenByRegion(startDate, endDate);
@@ -65,6 +67,13 @@ namespace BiaoProject.Mobile
         {
             WebOperationContext.Current.OutgoingResponse.ContentType = "application/json; charset=utf-8";
             return new MemoryStream(Encoding.UTF8.GetBytes(GetDailyVisitByRegionsChart(startTime,endTime).BuildArray()));
+        }
+
+        public Tuple<DateTime, DateTime> GetDailyVisitMinMaxDateTime()
+        {
+            VoucherAnalytics an = new VoucherAnalytics(new VoucherService(GlobalCache.Instance));
+            var result = an.GetVoucherMinAndMaxServiceDate();
+            return result;
         }
     }
 }

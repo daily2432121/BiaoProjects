@@ -31,8 +31,9 @@ namespace BiaoProject.Mobile
                     if (!checkResult.Success)
                     {
                         uploadMsg.Text = checkResult.ErrorMsg;
+                        return;
                     }
-                    return;
+                    
                 }
 
                 fileUpload.SaveAs(Server.MapPath("~/Data/Uploads/" + DateTime.UtcNow.ToLocalTime().ToString("yy-MM-dd_hh_mm_ss") + "_Uploaded_" + new Random().Next(1000) + ".csv"));

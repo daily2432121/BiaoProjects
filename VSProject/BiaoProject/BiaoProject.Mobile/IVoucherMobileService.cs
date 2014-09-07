@@ -32,6 +32,12 @@ namespace BiaoProject.Mobile
         [OperationContract]
         [WebGet(UriTemplate = "Analytics/Daily/ByRegions/Chart/Google?startTime={startTime}&endTime={endTime}",ResponseFormat = WebMessageFormat.Json)]
         Stream GetDailyVisitByRegionsChartForGoogle(DateTime startTime, DateTime endTime);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Analytics/Daily/ByRegions/Chart/MinMaxDate", ResponseFormat = WebMessageFormat.Json)]
+        Tuple<DateTime, DateTime> GetDailyVisitMinMaxDateTime();
+
+
         // TODO: Add your service operations here
     }
 
