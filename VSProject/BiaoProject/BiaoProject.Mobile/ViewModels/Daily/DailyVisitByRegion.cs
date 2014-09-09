@@ -44,7 +44,7 @@ namespace BiaoProject.Mobile.ViewModels.Daily
             var annotation = Region.OrderBy(r => r).ToList();
             var regions = Region.OrderBy(r => r).ToList();
             var dt = new DataTable();
-            dt.AddColumn(new Column(ColumnType.Number, "DayNumber")).ToString();
+            dt.AddColumn(new Column(ColumnType.String, "DayNumber")).ToString();
             var cols = annotation.Select(o=>new Column(ColumnType.Number,o.ToString(),o.ToString())).ToList();
             cols.ForEach(e=>dt.AddColumn(e));
             
@@ -55,7 +55,7 @@ namespace BiaoProject.Mobile.ViewModels.Daily
                 Row r = dt.NewRow();
                 int days = (int)((k.Key - minDateTime).TotalDays + 1);
                 
-                r.AddCell(new Cell(days));
+                r.AddCell(new Cell("Day "+days.ToString()));
                 for (int i = 0; i < regions.Count; i++)
                 {
                     int c = 0;

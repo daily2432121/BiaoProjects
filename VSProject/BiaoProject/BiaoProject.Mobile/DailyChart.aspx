@@ -4,6 +4,10 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <style>
+
+    </style>
+
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />
@@ -84,9 +88,9 @@
 
         function drawAll(d) {
             var data = new google.visualization.DataTable(d);
-
+            
             var chartOptions = {
-                width: 1200,
+                width: 1800,
                 height: 600,
                 domainAxis: { type: 'category' },
                 legend: { position: 'top', maxLines: 3 },
@@ -94,8 +98,9 @@
                 isStacked: true,
             };
             var tableOptions = {
-                //width: 1600,
+                width: 2000,
                 height: 800,
+                allowHtml: true,
                 legend: { position: top },
             };
             var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
@@ -121,19 +126,27 @@
                 table.draw(newData, tableOptions);
 
             });
+
+            //google.visualization.events.addListener(table, 'ready', function () {
+            //    // set the width of the column with the title "Name" to 100px
+            //    var title = 'DayNumber';
+            //    var width = '500px';
+            //    $('.google-visualization-table-th:contains(' + title + ')').css('width', width);
+            //});
         }
 
         $(document).ready(function() {
             
             var minMaxDateUrl = "Analytics/Daily/ByRegions/Chart/MinMaxDate";
-            var dataUrl = "Analytics/Daily/ByRegions/Chart/Google";
-            $(function () {
-                $("#slider").slider();
-            });
+            //var dataUrl = "Analytics/Daily/ByRegions/Chart/Google";
+            var dataUrl = "Analytics/Daily/ByRegions/Chart/Google?startTime=2012-01-01T12:24:34&endTime=2012-02-29T08:15:30&callback=?";
+            //$(function () {
+            //    $("#slider").slider();
+            //});
             //var dataUrl = "http://VoucherChart.azurewebsites.net/Analytics/Daily/ByRegions/Chart/Google?startTime=2012-01-01T12:24:34&endTime=2012-02-29T08:15:30&callback=?";
                         
-            var maxDate;
-            var minDate;
+            //var maxDate;
+            //var minDate;
 
             $.ajax({
                 url: minMaxDateUrl,
@@ -143,51 +156,14 @@
                 success: function(p) {
                     minDate = moment.utc(p.m_Item1);
                     maxDate = moment.utc(p.m_Item2);
-                    console.log("first:minDate:" + minDate);
-                    console.log("first:maxDate:" + maxDate);
-                    var diff = new moment(maxDate).diff(minDate, 'days');
-                    $('#range').val(minDate.format("MM-DD-YYYY") + " to " + maxDate.format("MM-DD-YYYY"));
+                    //console.log("first:minDate:" + minDate);
+                    //console.log("first:maxDate:" + maxDate);
+                    //var diff = new moment(maxDate).diff(minDate, 'days');
+                    //$('#range').val(minDate.format("MM-DD-YYYY") + " to " + maxDate.format("MM-DD-YYYY"));
                     $('#start_date').val(minDate.format("MM-DD-YYYY"));
-                    $('#slider').slider({
-                        range: true,
-                        min: 0,
-                        max: diff,
-                        values: [0, diff],
-                        change: function (event, ui) {
-                            if (ui.values[0] == ui.values[1]) {
-                                return false;
-                            }
-                            
-                            $('#start_date').val(minDate.format("MM-DD-YYYY"));
-                            var newMinDate = new moment(minDate).add(parseInt(ui.values[0]), 'days');
-                            var newMaxDate = new moment(minDate).add(parseInt(ui.values[1]), 'days');
-                            //$('#range').val(newMinDate.format("MM-DD-YYYY") + " to " + newMaxDate.format("MM-DD-YYYY"));
-                            console.log("minDate:" + minDate.toString());
-                            console.log("newMinDate:" + newMinDate.toString());
-                            console.log("maxDate:" + maxDate.toString());
-                            console.log("newMaxDate:" + newMaxDate.toString());
-                            $.ajax({
-                                url: dataUrl + "?startTime=" + newMinDate.toISOString() + "&endTime=" + newMaxDate.toISOString() + "&callback=?",
-                                dataType: "jsonp",
-                                jsonp: "callback",
-                                jsonpCallback: "handler3",
-                                success: drawAll
-                            });
-                        },
-                        slide: function (event, ui) {
-                            if (ui.values[0] == ui.values[1]) {
-                                return false;
-                            }
-                            var newMinDate = new moment(minDate).add(parseInt(ui.values[0]), 'days');
-                            var newMaxDate = new moment(minDate).add(parseInt(ui.values[1]), 'days');
-                            console.log(newMaxDate);
-                            $('#range').val(newMinDate.format("MM-DD-YYYY") + " to " + newMaxDate.format("MM-DD-YYYY"));
-                        }
-                        
-                    });
-
+                    
                     $.ajax({
-                        url: dataUrl + "?startTime=" + minDate.toISOString() + "&endTime=" + maxDate.toISOString() + "&callback=?",
+                        url: dataUrl,
                         dataType: "jsonp",
                         jsonp: "callback",
                         jsonpCallback: "handler",
@@ -195,11 +171,6 @@
                     });
                 }
             });
-
-
-
-
-
         });
     </script>
 
@@ -215,9 +186,9 @@
         </p>
         
         <p></p>
-        <p><label for ="start_date">Minimum Start Date: </label><input type="text" id="start_date" readonly="readonly" style="border-style: none; border-color: inherit; border-width: 0; font-weight:bold; width: 400px;"/>   </p>
-        <p><label for ="range" >Pick a Date Range: &nbsp;</label><input type="text" id="range" readonly="readonly" style="border:0;  font-weight:bold;width: 400px;" /></p>
-            <div id="slider" style="width:1200px"></div>
+        <p><label for ="start_date">Start Date: </label><input type="text" id="start_date" readonly="readonly" style="border-style: none; border-color: inherit; border-width: 0; font-weight:bold; width: 400px;"/>   </p>
+        <%--<p><label for ="range" >Pick a Date Range: &nbsp;</label><input type="text" id="range" readonly="readonly" style="border:0;  font-weight:bold;width: 400px;" /></p>
+            <div id="slider" style="width:1200px"></div>--%>
         
         
             <div id="chart_div">Waiting for data...</div>
