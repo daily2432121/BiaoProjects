@@ -33,12 +33,18 @@ namespace BiaoProject.Mobile
                         uploadMsg.Text = checkResult.ErrorMsg;
                         return;
                     }
+                    else
+                    {
+                        fileUpload.PostedFile.SaveAs(Server.MapPath("~/Data/Uploads/" + DateTime.UtcNow.ToLocalTime().ToString("yy-MM-dd_hh_mm_ss") + "_Uploaded_" + new Random().Next(1000) + ".csv"));
+                        
+                        GlobalCache.ForceRefresh();
+                        Response.Redirect(Request.RawUrl);
+                    }
                     
                 }
 
-                fileUpload.SaveAs(Server.MapPath("~/Data/Uploads/" + DateTime.UtcNow.ToLocalTime().ToString("yy-MM-dd_hh_mm_ss") + "_Uploaded_" + new Random().Next(1000) + ".csv"));
-                GlobalCache.ForceRefresh();
-                Response.Redirect(Request.RawUrl);
+                
+                
 
             }
             else

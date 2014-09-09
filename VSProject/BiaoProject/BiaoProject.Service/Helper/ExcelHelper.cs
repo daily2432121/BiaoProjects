@@ -87,40 +87,40 @@ namespace BiaoProject.Service.Helper
             var dict = columnMapping.ToDictionary(c => c.ColumnName.ToLower());
             try
             {
-                using (StreamReader readFile = new StreamReader(stream))
+                StreamReader readFile = new StreamReader(stream);
+                
+                string rawHeader = readFile.ReadLine();
+                var headers = rawHeader.ToLower().Split(',').Select(e => e.Trim().ToLower()).ToList();
+                if (headers.Count() != columnMapping.Count())
                 {
-                    string rawHeader = readFile.ReadLine();
-                    var headers = rawHeader.ToLower().Split(',').Select(e => e.Trim().ToLower()).ToList();
-                    if (headers.Count() != columnMapping.Count())
+                    result.Success = false;
+                    result.ErrorMsg = "Csv file wrong number of rows.";
+                    return result;
+                }
+
+                foreach (string header in headers)
+                {
+                    if (!dict.ContainsKey(header))
                     {
                         result.Success = false;
-                        result.ErrorMsg = "Csv file wrong number of rows.";
+                        result.ErrorMsg = string.Format("Column {0} is not recognized.", header);
                         return result;
                     }
-
-                    foreach (string header in headers)
+                }
+                string line;
+                int count = 0;
+                while ((line = readFile.ReadLine()) != null)
+                {
+                    count++;
+                    var row = line.Split(',');
+                    if (row.Count() != headers.Count)
                     {
-                        if (!dict.ContainsKey(header))
-                        {
-                            result.Success = false;
-                            result.ErrorMsg = string.Format("Column {0} is not recognized.", header);
-                            return result;
-                        }
-                    }
-                    string line;
-                    int count = 0;
-                    while ((line = readFile.ReadLine()) != null)
-                    {
-                        count++;
-                        var row = line.Split(',');
-                        if (row.Count() != headers.Count)
-                        {
-                            result.Success = false;
-                            result.ErrorMsg = string.Format("Data is missing in line {0} in csv file", count++);
-                            return result;
-                        }
+                        result.Success = false;
+                        result.ErrorMsg = string.Format("Data is missing in line {0} in csv file", count++);
+                        return result;
                     }
                 }
+                
                 result.Success = true;
                 result.ErrorMsg = null;
                 return result;
